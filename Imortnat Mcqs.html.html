@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Academy SH - Online Islamic Education</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #333; }
+        header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 10px 0; }
+        .header-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 28px; font-weight: bold; color: #006400; }
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { text-decoration: none; color: #333; font-weight: bold; padding: 10px; cursor: pointer; }
+        nav a:hover, nav a.active { color: #006400; }
+        .whatsapp-banner { background: #25D366; color: white; text-align: center; padding: 15px; font-size: 18px; cursor: pointer; }
+        .search-section { text-align: center; padding: 30px; background: white; }
+        .search-bar { width: 60%; padding: 12px; font-size: 18px; border: 1px solid #ccc; border-radius: 5px 0 0 5px; }
+        .search-btn { padding: 12px 20px; background: #006400; color: white; border: none; font-size: 18px; border-radius: 0 5px 5px 0; cursor: pointer; }
+        .buttons { text-align: center; margin: 30px 0; }
+        .btn-green { background: #006400; color: white; padding: 15px 40px; margin: 0 10px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; }
+        .content { max-width: 1200px; margin: 0 auto; display: flex; gap: 30px; padding: 20px; }
+        .column { flex: 1; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .column h2 { background: #006400; color: white; padding: 10px; text-align: center; margin: -20px -20px 20px -20px; border-radius: 10px 10px 0 0; }
+        .column ul { list-style: none; }
+        .column li { padding: 10px 0; border-bottom: 1px solid #eee; }
+        .column a { text-decoration: none; color: #333; cursor: pointer; }
+        .column a:hover { color: #006400; }
+        .quiz-section { display: none; padding: 40px; background: white; margin: 20px auto; max-width: 900px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .question { font-size: 24px; margin: 30px 0; font-weight: bold; }
+        .options label { display: block; background: #e8f5e9; margin: 15px 0; padding: 20px; border-radius: 15px; cursor: pointer; font-size: 18px; transition: background 0.3s; }
+        .options label:hover { background: #c8e6c9; }
+        .options input[type="radio"] { margin-right: 10px; }
+        #timer { font-size: 24px; color: #d32f2f; font-weight: bold; margin: 20px 0; }
+        #result { font-size: 28px; margin: 40px 0; }
+        footer { background: #006400; color: white; text-align: center; padding: 30px; margin-top: 50px; }
+        @media (max-width: 768px) { .content { flex-direction: column; } .search-bar { width: 80%; } }
+        .modal-section { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow: auto; }
+        .modal-content { background-color: white; margin: 10% auto; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; }
+        .close-btn { color: #aaa; float: right; font-size: 36px; font-weight: bold; cursor: pointer; }
+        .close-btn:hover { color: #006400; }
+        .modal-content input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        #searchResults { display: none; margin: 20px auto; max-width: 900px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #006400, #004d00); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 3px solid #D4AF37;">
+                    <span style="font-size: 38px; font-weight: bold; color: #D4AF37; text-shadow: 0 0 8px rgba(212,175,55,0.7);">SH</span>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 35px; font-weight: bold; color: #006400; letter-spacing: 1px;">Islamic Academy</span>
+                </div>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a onclick="showSection('home')" class="active">HOME</a></li>
+                    <li><a onclick="showSection('home')">IMPORTANT MCQS</a></li>
+                    <li><a href="#">PAST PAPERS</a></li>
+                    <li><a onclick="openModal('aboutUs')">ABOUT US</a></li>
+                    <li><a onclick="openModal('contact')">CONTACT</a></li>
+                    <li><a onclick="openModal('login')">LOGIN</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="whatsapp-banner" onclick="window.location.href='https://wa.me/923041007159?text=Assalam%20o%20Alaikum%2C%20I%20want%20to%20join%20the%20Islamic%20Academy%20SH%20WhatsApp%20Group'">
+        📱 CLICK HERE TO JOIN WHATSAPP GROUP FOR ISLAMIC CLASSES AND UPDATES
+    </div>
+
+    <div class="search-section">
+        <h2>Important MCQs & General Knowledge MCQs</h2>
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search Question..." oninput="searchQuestions()">
+        <button class="search-btn" onclick="searchQuestions()">Search</button>
+
+        <div id="searchResults">
+            <h3>Search Results</h3>
+            <ul id="resultsList" style="list-style: none; padding: 0;"></ul>
+        </div>
+
+        <div class="buttons">
+            <button class="btn-green" onclick="showSection('islamicQuiz')">TAKE TEST</button>
+            <button class="btn-green">SAVE FOR LATER READ</button>
+            <button class="btn-green" onclick="showSection('islamicQuiz')">IMPORTANT MCQS</button>
+            <button class="btn-green">VIDEO LECTURES</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="column">
+            <h2>Important MCQs</h2>
+            <ul>
+                <li><a onclick="showSection('islamicQuiz')">Islamic Studies MCQs</a></li>
+                <li><a onclick="showSection('seerahQuiz')">Seerah of Prophet ﷺ</a></li>
+                <li><a onclick="showSection('fiqhQuiz')">Fiqh & Aqeedah</a></li>
+                <li><a onclick="showSection('historyQuiz')">Islamic History</a></li>
+                <li><a onclick="showSection('prayerQuiz')">Prayer & Worship</a></li>
+                <li><a onclick="showSection('ethicsQuiz')">Ethics & Manners</a></li>
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>General Knowledge MCQs</h2>
+            <ul>
+                <li><a onclick="showSection('pakistanGKQuiz')">General Knowledge Pakistan MCQs</a></li>
+                <li><a onclick="showSection('mathematicsQuiz')">Mathematics MCQs</a></li>
+                <li><a onclick="showSection('physicsQuiz')">Physics MCQs</a></li>
+                <li><a onclick="showSection('chemistryQuiz')">Chemistry MCQs</a></li>
+                <li><a onclick="showSection('biologyQuiz')">Biology MCQs</a></li>
+                <li><a onclick="showSection('computerQuiz')">Computer MCQs</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- کوئز سیکشنز -->
+    <div id="islamicQuiz" class="quiz-section">
+        <h1 style="text-align: center; font-size: 36px; color: #006400;">Islamic Studies MCQs Quiz</h1>
+        <p id="islamicTimer">Time Left: 30:00</p>
+        <div id="islamicQuestion" class="question"></div>
+        <div class="options" id="islamicOptions"></div>
+        <button class="btn-green" id="islamicNextBtn" onclick="nextQuestion('islamic')" disabled>Next Question</button>
+        <div id="islamicResult"></div>
+        <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+    </div>
+
+    <div id="seerahQuiz" class="quiz-section">
+        <h1 style="text-align: center; font-size: 36px; color: #006400;">Seerah of Prophet Muhammad ﷺ MCQs Quiz</h1>
+        <p id="seerahTimer">Time Left: 30:00</p>
+        <div id="seerahQuestion" class="question"></div>
+        <div class="options" id="seerahOptions"></div>
+        <button class="btn-green" id="seerahNextBtn" onclick="nextQuestion('seerah')" disabled>Next Question</button>
+        <div id="seerahResult"></div>
+        <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+    </div>
+
+    <div id="fiqhQuiz" class="quiz-section">
+        <h1 style="text-align: center; font-size: 36px; color: #006400;">Fiqh & Aqeedah MCQs Quiz</h1>
+        <p id="fiqhTimer">Time Left: 30:00</p>
+        <div id="fiqhQuestion" class="question"></div>
+        <div class="options" id="fiqhOptions"></div>
+        <button class="btn-green" id="fiqhNextBtn" onclick="nextQuestion('fiqh')" disabled>Next Question</button>
+        <div id="fiqhResult"></div>
+        <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+    </div>
+
+    <div id="historyQuiz" class="quiz-section">
+        <h1 style="text-align: center; font-size: 36px; color: #006400;">Islamic History MCQs Quiz</h1>
+        <p id="historyTimer">Time Left: 30:00</p>
+        <div id="historyQuestion" class="question"></div>
+        <div class="options" id="historyOptions"></div>
+        <button class="btn-green" id="historyNextBtn" onclick="nextQuestion('history')" disabled>Next Question</button>
+        <div id="historyResult"></div>
+        <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+    </div>
+
+    <div id="prayerQuiz" class="quiz-section">
+        <h1 style="text-align: center; font-size: 36px; color: #006400;">Prayer & Worship MCQs Quiz</h1>
+        <p id="prayerTimer">Time Left: 30:00</p>
+        <div id="prayerQuestion" class="question"></div>
+        <div class="options" id="prayerOptions"></div>
+        <button class="btn-green" id="prayerNextBtn" onclick="nextQuestion('prayer')" disabled>Next Question</button>
+        <div id="prayerResult"></div>
+        <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+    </div>
+
+    <div id="ethicsQuiz" class="quiz-section">
+        <h1 style="text-align: center; font-size: 36px; color: #006400;">Ethics & Manners MCQs Quiz</h1>
+        <p id="ethicsTimer">Time Left: 30:00</p>
+        <div id="ethicsQuestion" class="question"></div>
+        <div class="options" id="ethicsOptions"></div>
+        <button class="btn-green" id="ethicsNextBtn" onclick="nextQuestion('ethics')" disabled>Next Question</button>
+        <div id="ethicsResult"></div>
+        <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+    </div>
+
+    <div id="pakistanGKQuiz" class="quiz-section">
+        <h1 style="text-align: center; font-size: 36px; color: #006400;">General Knowledge Pakistan MCQs Quiz</h1>
+        <p id="pakistanTimer">Time Left: 30:00</p>
+        <div id="pakistanQuestion" class="question"></div>
+        <div class="options" id="pakistanOptions"></div>
+        <button class="btn-green" id="pakistanNextBtn" onclick="nextQuestion('pakistan')" disabled>Next Question</button>
+        <div id="pakistanResult"></div>
+        <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+    </div>
+    <!-- Mathematics Quiz Section -->
+<div id="mathematicsQuiz" class="quiz-section">
+    <h1 style="text-align: center; font-size: 36px; color: #006400;">Mathematics MCQs Quiz</h1>
+    <p id="mathematicsTimer">Time Left: 30:00</p>
+    <div id="mathematicsQuestion" class="question"></div>
+    <div class="options" id="mathematicsOptions"></div>
+    <button class="btn-green" id="mathematicsNextBtn" onclick="nextQuestion('mathematics')" disabled>Next Question</button>
+    <div id="mathematicsResult"></div>
+    <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+</div>
+
+<!-- Physics Quiz Section -->
+<div id="physicsQuiz" class="quiz-section">
+    <h1 style="text-align: center; font-size: 36px; color: #006400;">Physics MCQs Quiz</h1>
+    <p id="physicsTimer">Time Left: 30:00</p>
+    <div id="physicsQuestion" class="question"></div>
+    <div class="options" id="physicsOptions"></div>
+    <button class="btn-green" id="physicsNextBtn" onclick="nextQuestion('physics')" disabled>Next Question</button>
+    <div id="physicsResult"></div>
+    <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+</div>
+
+<!-- Chemistry Quiz Section -->
+<div id="chemistryQuiz" class="quiz-section">
+    <h1 style="text-align: center; font-size: 36px; color: #006400;">Chemistry MCQs Quiz</h1>
+    <p id="chemistryTimer">Time Left: 30:00</p>
+    <div id="chemistryQuestion" class="question"></div>
+    <div class="options" id="chemistryOptions"></div>
+    <button class="btn-green" id="chemistryNextBtn" onclick="nextQuestion('chemistry')" disabled>Next Question</button>
+    <div id="chemistryResult"></div>
+    <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+</div>
+
+<!-- Biology Quiz Section -->
+<div id="biologyQuiz" class="quiz-section">
+    <h1 style="text-align: center; font-size: 36px; color: #006400;">Biology MCQs Quiz</h1>
+    <p id="biologyTimer">Time Left: 30:00</p>
+    <div id="biologyQuestion" class="question"></div>
+    <div class="options" id="biologyOptions"></div>
+    <button class="btn-green" id="biologyNextBtn" onclick="nextQuestion('biology')" disabled>Next Question</button>
+    <div id="biologyResult"></div>
+    <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+</div>
+
+<!-- Computer Science Quiz Section -->
+<div id="computerQuiz" class="quiz-section">
+    <h1 style="text-align: center; font-size: 36px; color: #006400;">Computer Science MCQs Quiz</h1>
+    <p id="computerTimer">Time Left: 30:00</p>
+    <div id="computerQuestion" class="question"></div>
+    <div class="options" id="computerOptions"></div>
+    <button class="btn-green" id="computerNextBtn" onclick="nextQuestion('computer')" disabled>Next Question</button>
+    <div id="computerResult"></div>
+    <button class="btn-green" onclick="showSection('home')" style="margin-top: 20px;">Back to Home</button>
+</div>
+
+    <footer>
+        <p>Contact Us</p>
+        <p>Islamabad, Pakistan</p>
+        <p>📞 WhatsApp: 0304-1007159</p>
+        <p>✉️ Email: info@islamicacademysh.com</p>
+        <p>All Rights Reserved © Islamic Academy SH - Created by Muhammad Sultan</p>
+    </footer>
+
+    <!-- Modals -->
+    <div id="aboutUs" class="modal-section">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('aboutUs')">×</span>
+            <h2 style="color: #006400; text-align: center;">About Us</h2>
+            <p>Islamic Academy SH ایک آن لائن اسلامی تعلیمی پلیٹ فارم ہے جو قرآن، حدیث، سیرت، فقہ، اسلامی تاریخ اور اخلاقیات کی تعلیم فراہم کرتا ہے۔</p>
+            <button class="btn-green" onclick="closeModal('aboutUs')">Close</button>
+        </div>
+    </div>
+
+    <div id="contact" class="modal-section">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('contact')">×</span>
+            <h2 style="color: #006400; text-align: center;">Contact Us</h2>
+            <p><strong>Address:</strong> Islamabad, Pakistan</p>
+            <p><strong>WhatsApp:</strong> 0304-1007159</p>
+            <p><strong>Email:</strong> info@islamicacademysh.com</p>
+            <button class="btn-green" onclick="closeModal('contact')">Close</button>
+        </div>
+    </div>
+
+    <div id="login" class="modal-section">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('login')">×</span>
+            <h2 style="color: #006400; text-align: center;">Login</h2>
+            <form id="loginForm">
+                <label for="email">Email / Phone:</label><br>
+                <input type="text" id="email" required><br><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" required><br><br>
+                <button type="button" class="btn-green" onclick="handleLogin()">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let allQuizData = null;
+
+        fetch('questions.json')
+            .then(response => {
+                if (!response.ok) throw new Error('JSON file not found: ' + response.status);
+                return response.json();
+            })
+            .then(data => {
+                allQuizData = data;
+                console.log("Questions loaded successfully!");
+            })
+            .catch(error => {
+                console.error("Error loading JSON:", error);
+                alert("Questions could not be loaded. Please check questions.json file.");
+            });
+
+        let currentQuestion = {};
+        let scores = {};
+        let timeLeft = 1800;
+        let timerInterval;
+        let selectedOption = null;
+
+        const quizPrefixes = ['islamic', 'seerah', 'fiqh', 'history', 'prayer', 'ethics', 'pakistan', 'mathematics', 'physics', 'chemistry', 'biology', 'computer'];
+
+        quizPrefixes.forEach(prefix => {
+            currentQuestion[prefix] = 0;
+            scores[prefix] = 0;
+        });
+
+        function openModal(id) { document.getElementById(id).style.display = 'block'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            if (email && password) {
+                alert('Welcome! Login successful (Demo)');
+                closeModal('login');
+            } else {
+                alert('Please fill both fields');
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-section')) event.target.style.display = 'none';
+        };
+
+        function showSection(id) {
+            document.querySelectorAll('.search-section, .content, .quiz-section').forEach(el => el.style.display = 'none');
+
+            if (id === 'home') {
+                document.querySelector('.search-section').style.display = 'block';
+                document.querySelector('.content').style.display = 'flex';
+            } else {
+                document.getElementById(id).style.display = 'block';
+
+                if (!allQuizData) {
+                    alert("Questions are still loading or not found. Refresh the page.");
+                    return;
+                }
+
+                const prefixMap = {
+                    'islamicQuiz': 'islamic',
+                    'seerahQuiz': 'seerah',
+                    'fiqhQuiz': 'fiqh',
+                    'historyQuiz': 'history',
+                    'prayerQuiz': 'prayer',
+                    'ethicsQuiz': 'ethics',
+                    'pakistanGKQuiz': 'pakistan',
+                    'mathematicsQuiz': 'mathematics',
+                    'physicsQuiz': 'physics',
+                    'chemistryQuiz': 'chemistry',
+                    'biologyQuiz': 'biology',
+                    'computerQuiz': 'computer'
+                };
+
+                const prefix = prefixMap[id];
+                if (prefix) {
+                    currentQuestion[prefix] = 0;
+                    scores[prefix] = 0;
+                    timeLeft = 1800;
+                    selectedOption = null;
+                    startTimer(prefix + 'Timer');
+                    loadQuestion(prefix);
+                    document.getElementById(prefix + 'Result').innerHTML = '';
+                    document.getElementById(prefix + 'NextBtn').disabled = true;
+                }
+            }
+        }
+
+        function startTimer(timerId) {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const min = Math.floor(timeLeft / 60);
+                const sec = timeLeft % 60;
+                document.getElementById(timerId).innerText = `Time Left: ${min}:${sec.toString().padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    const prefix = timerId.replace('Timer', '');
+                    showResult(prefix + 'Result');
+                }
+            }, 1000);
+        }
+
+        function loadQuestion(prefix) {
+            const questions = allQuizData[prefix];
+            if (!questions) return console.error("Quiz not found:", prefix);
+
+            const current = currentQuestion[prefix];
+
+            if (current >= questions.length) {
+                showResult(prefix + 'Result');
+                return;
+            }
+
+            const q = questions[current];
+            document.getElementById(prefix + 'Question').innerText = `${current + 1}. ${q.question}`;
+            const optionsDiv = document.getElementById(prefix + 'Options');
+            optionsDiv.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const label = document.createElement('label');
+                label.innerHTML = `<input type="radio" name="${prefix}opt" value="${idx}" onchange="selectOption('${prefix}', ${idx}, ${q.correct})"><span>${opt}</span>`;
+                optionsDiv.appendChild(label);
+            });
+            document.getElementById(prefix + 'NextBtn').disabled = true;
+        }
+
+        function selectOption(prefix, selected, correct) {
+    if (selectedOption !== null) return;
+    selectedOption = selected;
+
+    const labels = document.querySelectorAll(`#${prefix}Options label`);
+    labels.forEach((lbl, i) => {
+        const radio = lbl.querySelector('input');
+        const span = lbl.querySelector('span');
+        radio.disabled = true;
+
+        if (i === correct) {
+            span.style.color = 'green';
+            span.style.fontWeight = 'bold';
+        }
+        if (i === selected && i !== correct) {
+            span.style.color = 'red';
+            span.style.fontWeight = 'bold';
+        }
+    });
+
+    if (selected === correct) scores[prefix]++;
+
+    document.getElementById(prefix + 'NextBtn').disabled = false;
+
+    setTimeout(() => {
+        currentQuestion[prefix]++;
+        selectedOption = null;
+        loadQuestion(prefix);
+    }, 1200);
+}
+
+        function nextQuestion(prefix) {
+            currentQuestion[prefix]++;
+            selectedOption = null;
+            loadQuestion(prefix);
+        }
+
+        function showResult(resultId) {
+            clearInterval(timerInterval);
+            const prefix = resultId.replace('Result', '');
+            const score = scores[prefix];
+            const total = allQuizData[prefix].length;
+            const percent = Math.round((score / total) * 100);
+
+            document.getElementById(resultId).innerHTML = `
+                <h2>Quiz Completed!</h2>
+                <p>Score: ${score} / ${total}</p>
+                <p>Percentage: ${percent}%</p>
+                <p style="font-size:32px; color:${percent >= 60 ? 'green' : 'red'}">
+                    <strong>${percent >= 60 ? "PASS" : "FAIL"}</strong>
+                </p>
+            `;
+            document.getElementById(prefix + 'Options').innerHTML = "";
+            document.getElementById(prefix + 'NextBtn').style.display = "none";
+        }
+
+        function searchQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+            const resultsList = document.getElementById('resultsList');
+
+            resultsList.innerHTML = '';
+
+            if (input === '') {
+                resultsDiv.style.display = 'none';
+                return;
+            }
+
+            if (!allQuizData) {
+                resultsList.innerHTML = '<li>Loading questions...</li>';
+                resultsDiv.style.display = 'block';
+                return;
+            }
+
+            const allQ = [];
+            for (const cat in allQuizData) {
+                allQuizData[cat].forEach(q => {
+                    allQ.push({ ...q, category: cat });
+                });
+            }
+
+            const filtered = allQ.filter(q =>
+                q.question.toLowerCase().includes(input) ||
+                q.options.some(o => o.toLowerCase().includes(input))
+            );
+
+            if (filtered.length === 0) {
+                resultsList.innerHTML = '<li>No questions found.</li>';
+            } else {
+                filtered.forEach(q => {
+                    const li = document.createElement('li');
+                    li.style.padding = '12px';
+                    li.style.borderBottom = '1px solid #eee';
+                    li.style.background = '#f9f9f9';
+                    li.style.borderRadius = '6px';
+                    li.style.marginBottom = '8px';
+
+                    const highlight = text => {
+                        if (!input) return text;
+                        const regex = new RegExp(`(${input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                        return text.replace(regex, '<span style="background:#ffff99; padding:2px 4px; border-radius:3px; font-weight:bold;">$1</span>');
+                    };
+
+                    li.innerHTML = `
+                        <strong>${highlight(q.category)}:</strong><br>
+                        ${highlight(q.question)}<br>
+                        <small>Options: ${q.options.map(highlight).join(' | ')}</small>
+                    `;
+                    resultsList.appendChild(li);
+                });
+            }
+
+            resultsDiv.style.display = 'block';
+        }
+
+        // Initial load
+        showSection('home');
+    </script>
+</body>
+</html>
